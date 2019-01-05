@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { User } from '../models/user';
 import { Validators } from '@angular/forms';
 
@@ -9,22 +9,23 @@ import { Validators } from '@angular/forms';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
-
-  registrationForm = this.fb.group({
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    email: ['', Validators.required],
-    password: ['', Validators.required]
-  });
+  
+  public registrationForm: FormGroup;
   
   constructor(private fb: FormBuilder) {}
 
-   ngOnInit() {}
+   ngOnInit(): void {
+    this.registrationForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+   }
 
-   onSubmit() {
-     const result: User = Object.assign({
-
-     })
+   onSubmit(): void {
+    //  const result: User = Object.assign({ })
+    console.warn(this.registrationForm);
    }
 
 }
