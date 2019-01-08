@@ -1,29 +1,32 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-app.use(bodyParser.json());
 
-//TODO: allow options request to get a response
+app.use(bodyParser.json());
+app.use(function (req, res, next) {
+    res.set({
+        'Access-Control-Allow-Origin': '*'
+    })
+    next();
+});
 
 app.options('*', (req, res) => {
     res.set({
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type'
+        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Access-Control-Request-Headers, Content-Type'
     })
     return res.send('okay');
 });
 
 app.post("/api/registration", (req, res) => {
+    console.log(req.body);
+    
     let output = {
         success: true,
         requestData: req.body
     };
 
-    if(err) {
-        output.success =  false;
-    }
-
-    res.send(JSON.stringify(output));
+    return res.json(output);
 });
 
 app.post("/api/login", (req, res) => {
