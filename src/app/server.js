@@ -1,16 +1,37 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+app.use(bodyParser.json());
 
-app.post("/registration", (req, res) => {
-    console.log(req);
+//TODO: allow options request to get a response
+
+app.options('*', (req, res) => {
+    res.set({
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type'
+    })
+    return res.send('okay');
 });
 
-app.post("/login", (req, res) => {
-    console.log(req);
+app.post("/api/registration", (req, res) => {
+    let output = {
+        success: true,
+        requestData: req.body
+    };
+
+    if(err) {
+        output.success =  false;
+    }
+
+    res.send(JSON.stringify(output));
 });
 
-app.get("/user-profile", (req, res) => {
-    res.send('now in user profile');
+app.post("/api/login", (req, res) => {
+    res.send('login');
+});
+
+app.get("/api/user-profile", (req, res) => {
+    res.send('user profile');
 });
 
 app.get('/', function(req, res) {

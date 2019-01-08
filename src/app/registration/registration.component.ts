@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { User } from '../models/user';
 import { Validators } from '@angular/forms';
+import { RequestToBackendService } from '../request-to-backend.service';
 
 @Component({
   selector: 'app-registration',
@@ -11,8 +12,12 @@ import { Validators } from '@angular/forms';
 export class RegistrationComponent implements OnInit {
   
   public registrationForm: FormGroup;
+  response: User;
   
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private reqService: RequestToBackendService
+    ) {}
 
    ngOnInit(): void {
     this.registrationForm = this.fb.group({
@@ -24,8 +29,12 @@ export class RegistrationComponent implements OnInit {
    }
 
    onSubmit(): void {
-    //  const result: User = Object.assign({ })
-    console.warn(this.registrationForm);
+    let {firstName, lastName, email, password} = this.registrationForm.value;
+    let newUser = new User(firstName, lastName, email, password);
+    console.log(newUser);
+
+    this.reqService.addUser(newUser)
+    .subscribe(data => console.log(data));
    }
 
 }
