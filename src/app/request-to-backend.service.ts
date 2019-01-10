@@ -25,6 +25,13 @@ export class RequestToBackendService {
       );
   }
 
+  verifyUser (credentials: Object): Observable<Object> {
+    return this.http.post<Object>('http://localhost:3000/api/login', credentials, httpOptions)
+      .pipe(
+        catchError(this.handleError<Object>('verifyUser'))
+      );
+  }
+
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);

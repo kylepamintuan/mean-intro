@@ -1,0 +1,40 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h2 {
+    color: purple;
+}
+
+form label, form input {
+    display: block;
+    text-align: center;
+}
+
+form input {
+    margin-bottom: 10px;
+    height: 20px;
+    width: 250px;
+    border-radius: 3px;
+    border: 1px solid;
+}
+
+.form-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.form-buttons button {
+    height: 30px;
+    width: 257px;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: lighter;
+    color: white;
+    background-color: black;
+}

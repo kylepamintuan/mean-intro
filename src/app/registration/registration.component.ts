@@ -9,6 +9,7 @@ import { RequestToBackendService } from '../request-to-backend.service';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css']
 })
+
 export class RegistrationComponent implements OnInit {
   
   public registrationForm: FormGroup;
@@ -17,7 +18,7 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private reqService: RequestToBackendService
-    ) {}
+  ) { }
 
    ngOnInit(): void {
     this.registrationForm = this.fb.group({

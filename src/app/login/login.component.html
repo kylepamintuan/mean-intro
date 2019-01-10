@@ -1,3 +1,15 @@
-<p>
-  login works!
-</p>
+<div class="container">
+    <h2>User Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+  
+      <label>Email</label>
+      <input formControlName="email" type="email" class="form-control" required>
+  
+      <label>Password</label>
+      <input formControlName="password" type="password" class="form-control" required>
+  
+      <div class="form-buttons">
+          <button type="submit" [disabled]="!loginForm.valid">Log In</button>
+      </div>
+    </form>
+  </div>
