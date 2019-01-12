@@ -2,8 +2,8 @@
     <h2>User Login</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
   
-      <label>Email</label>
-      <input formControlName="email" type="email" class="form-control" required>
+      <label>Username</label>
+      <input formControlName="username" type="text" class="form-control" required>
   
       <label>Password</label>
       <input formControlName="password" type="password" class="form-control" required>
@@ -11,5 +11,6 @@
       <div class="form-buttons">
           <button type="submit" [disabled]="!loginForm.valid">Log In</button>
       </div>
+      <p><a routerLink="/registration" routerLinkActive="active">Register</a></p>
     </form>
   </div>

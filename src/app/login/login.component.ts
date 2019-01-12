@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { RequestToBackendService } from '../request-to-backend.service';
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-login',
@@ -15,23 +16,30 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private reqService: RequestToBackendService
+    private reqService: RequestToBackendService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: ['', Validators.required],
+      username: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
 
   onSubmit(): void {
-    let {email, password} = this.loginForm.value;
-    let credentials = { 'email': email, 'password': password }
+    let {username, password} = this.loginForm.value;
+    let credentials = { 'username': username, 'password': password }
     console.log(credentials);
-
+    
     this.reqService.verifyUser(credentials)
-    .subscribe(data => console.log(data));
-   }
+      .subscribe({ 
+        next: (response) => {
+          console.log(response);
+          this.router.navigate(['dashboard', username]);
+        },
+        error: (err) => console.log(err.error)
+      });
+  }
 
 }

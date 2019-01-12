@@ -10,12 +10,12 @@ const routes: Routes = [
   // { path: '', redirectTo: '/registration', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'registration', component: RegistrationComponent },
-  { path: 'dashboard', component: DashboardComponent }
+  { path: 'dashboard/:username', component: DashboardComponent }
 ];
 
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],
-  exports: [RouterModule]
+  exports: [ RouterModule ]
 })
 
 export class AppRoutingModule { }
