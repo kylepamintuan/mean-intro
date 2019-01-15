@@ -53,16 +53,21 @@ export class RegistrationComponent implements OnInit {
     console.log(newUser);
 
     this.state.busy = true;
-    window.setTimeout(() => this.state.busy = false, 3000);
 
-    // this.reqService.addUser(newUser)
-    // .subscribe({ 
-    //     next: (response) => {
-    //       console.log(response);
-    //       this.router.navigate(['login']);
-    //     },
-    //     error: (err) => console.log(err.error)
-    // });
+    this.reqService.addUser(newUser)
+    .subscribe({
+        next: (response) => {
+          console.log(response);
+          window.setTimeout(() => {
+            this.state.busy = false;
+            this.router.navigate(['login']);
+          }, 2000);
+        },
+        error: (err) => {
+          console.log(err.error);
+          this.state.busy = false;
+        }
+    });
    }
 
 }

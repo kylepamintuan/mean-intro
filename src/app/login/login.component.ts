@@ -42,20 +42,21 @@ export class LoginComponent implements OnInit {
     console.log(credentials);
     
     this.state.busy = true;
-    window.setTimeout(() => this.state.busy = false, 3000);
 
-    // this.reqService.verifyUser(credentials)
-    //   .subscribe({ 
-    //     next: (response) => {
-    //       console.log(response);
-    //       this.state.busy = false;
-    //       this.router.navigate(['dashboard', username]);
-    //     },
-    //     error: (err) => {
-    //       console.log(err.error)
-    //       this.state.busy = false;
-    //     }
-    //   });
+    this.reqService.verifyUser(credentials)
+      .subscribe({ 
+        next: (response) => {
+          console.log(response);
+          window.setTimeout(() => {
+            this.state.busy = false;
+            this.router.navigate(['dashboard', username]);
+          }, 2000);
+        },
+        error: (err) => {
+          console.log(err.error);
+          this.state.busy = false;
+        }
+      });
   }
 
 }
