@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
     console.log(credentials);
     
     this.state.busy = true;
-    window.setTimeout(() => this.state.busy = false, 5000);
+    window.setTimeout(() => this.state.busy = false, 3000);
 
     // this.reqService.verifyUser(credentials)
     //   .subscribe({ 
