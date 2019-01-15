@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { RequestToBackendService } from '../request-to-backend.service';
 import { Router } from '@angular/router'; 
@@ -12,7 +12,14 @@ import { Router } from '@angular/router';
 
 export class LoginComponent implements OnInit {
 
+  public state = {
+    busy: false,
+    valid: false
+  };
+
   public loginForm: FormGroup;
+  public usernameField: AbstractControl;
+  public passwordField: AbstractControl;
 
   constructor(
     private fb: FormBuilder,
@@ -25,6 +32,8 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+    this.usernameField = this.loginForm.controls.username;
+    this.passwordField = this.loginForm.controls.password;
   }
 
   onSubmit(): void {
@@ -32,14 +41,21 @@ export class LoginComponent implements OnInit {
     let credentials = { 'username': username, 'password': password }
     console.log(credentials);
     
-    this.reqService.verifyUser(credentials)
-      .subscribe({ 
-        next: (response) => {
-          console.log(response);
-          this.router.navigate(['dashboard', username]);
-        },
-        error: (err) => console.log(err.error)
-      });
+    this.state.busy = true;
+    window.setTimeout(() => this.state.busy = false, 5000);
+
+    // this.reqService.verifyUser(credentials)
+    //   .subscribe({ 
+    //     next: (response) => {
+    //       console.log(response);
+    //       this.state.busy = false;
+    //       this.router.navigate(['dashboard', username]);
+    //     },
+    //     error: (err) => {
+    //       console.log(err.error)
+    //       this.state.busy = false;
+    //     }
+    //   });
   }
 
 }

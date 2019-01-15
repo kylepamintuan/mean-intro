@@ -1,16 +1,28 @@
 <div class="container">
     <h2>User Login</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
-  
-      <label>Username</label>
-      <input formControlName="username" type="text" class="form-control" required>
-  
-      <label>Password</label>
-      <input formControlName="password" type="password" class="form-control" required>
-  
-      <div class="form-buttons">
-          <button type="submit" [disabled]="!loginForm.valid">Log In</button>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="ui form" novalidate>
+      
+      <!-- Username -->
+      <div class="field" [ngClass]="{ error: !usernameField.valid && usernameField.touched }">
+        <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input formControlName="username" type="text" class="form-control" placeholder="Username" required>
+        </div>
       </div>
+
+      <!-- Password -->
+      <div class="field" [ngClass]="{ error: !passwordField.valid && passwordField.touched }" >
+        <div class="ui left icon input">
+          <i class="unlock icon"></i>
+          <input formControlName="password" type="password" class="form-control" placeholder="Password" required>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button [disabled]="!loginForm.valid" class="ui blue button" [ngClass]="{ disabled: !loginForm.valid || state.busy, loading: state.busy }" type="submit">Login</button>
+
+      <!-- Register Link -->
       <p><a routerLink="/registration" routerLinkActive="active">Register</a></p>
+
     </form>
   </div>
