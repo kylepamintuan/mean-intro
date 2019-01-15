@@ -24,7 +24,6 @@ export class RegistrationComponent implements OnInit {
   public emailField: AbstractControl;
   public usernameField: AbstractControl;
   public passwordField: AbstractControl;
-  response: User;
   
   constructor(
     private fb: FormBuilder,
@@ -61,7 +60,7 @@ export class RegistrationComponent implements OnInit {
           window.setTimeout(() => {
             this.state.busy = false;
             this.router.navigate(['login']);
-          }, 2000);
+          }, 1000);
         },
         error: (err) => {
           console.log(err.error);

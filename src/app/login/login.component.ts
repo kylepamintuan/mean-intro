@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
           window.setTimeout(() => {
             this.state.busy = false;
             this.router.navigate(['dashboard', username]);
-          }, 2000);
+          }, 1000);
         },
         error: (err) => {
           console.log(err.error);
