@@ -16,11 +16,9 @@ export class LoginComponent implements OnInit {
     busy: false,
     valid: false
   };
-  public token;
   public loginForm: FormGroup;
   public usernameField: AbstractControl;
   public passwordField: AbstractControl;
-  public response: any;
 
   constructor(
     private fb: FormBuilder,
@@ -35,37 +33,61 @@ export class LoginComponent implements OnInit {
     });
     this.usernameField = this.loginForm.controls.username;
     this.passwordField = this.loginForm.controls.password;
+
+    // TODO: Check if token exists
+    // if(this.token) {
+    //   this.reqService
+    //   .verifyToken(this.token)
+    //   .subscribe({
+    //     next: (response) => {
+    //       console.log(response);
+
+    //       if(response['authorized']) {
+    //         this.state.busy = false;
+    //         console.log('USER REAUTHROIZED BY TOKEN');
+    //         // this.router.navigate(['dashboard', username]);
+    //       }
+    //     }, 
+    //     error: (err) => {
+    //       console.log(err.error);
+    //       this.state.busy = false;
+    //     }
+    //   });
+    // }
   }
 
   onSubmit(): void {
-    let {username, password} = this.loginForm.value;
+    let { username, password } = this.loginForm.value;
     let credentials = { 'username': username, 'password': password }
     console.log(credentials);
     
     this.state.busy = true;
 
-    if(this.token) {
-      // send token to backend to get verified
-    }
+    this.reqService
+    .verifyUser(credentials)
+    .subscribe({ 
+      next: (response) => {
+        console.log(response);
 
-    this.reqService.verifyUser(credentials)
-      .subscribe({ 
-        next: (response) => {
-          console.log(response);
-
-          this.token = (response['token']);
-          console.log(this.token);
-
+        if(response['token']) {
+          // TODO: store token in browser's local storage
+          // this.token = response['token'];
           window.setTimeout(() => {
             this.state.busy = false;
+            console.log('USER AUTHORIZED BY LOGIN');
             // this.router.navigate(['dashboard', username]);
           }, 1000);
-        },
-        error: (err) => {
-          console.log(err.error);
-          this.state.busy = false;
         }
-      });
+        else {
+          this.state.busy = false;
+          // TODO: Client-side login error message
+        }
+      },
+      error: (err) => {
+        console.log(err.error);
+        this.state.busy = false;
+      }
+    });
   }
 
 }

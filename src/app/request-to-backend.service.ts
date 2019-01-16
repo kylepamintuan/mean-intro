@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { User } from './models/user';
 
 const httpOptions = {
@@ -21,6 +21,22 @@ export class RequestToBackendService {
   }
 
   verifyUser (credentials: Object) {
+    // TODO: Set header => 'Authorization': 'Basic'
     return this.http.post('http://localhost:3000/api/login', credentials, httpOptions);
   }
+
+  verifyToken (token: string) {
+    // TODO: Set header => 'Authorization': 'Bearer'
+    const params = new HttpParams().set('token', token);
+    return this.http.get('http://localhost:3000/api/reauthorize', {responseType: 'json', params});
+  }
+
+  getUser (username: string) {
+    const params = new HttpParams().set('username', username);
+    return this.http.get('http://localhost:3000/api/user-profile', {responseType: 'json', params});
+  }
+
+  // TODO: toUTF8()
+  // TODO: base64Encode()
+  // TODO: basicAuthEncode()
 }

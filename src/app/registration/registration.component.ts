@@ -53,7 +53,8 @@ export class RegistrationComponent implements OnInit {
 
     this.state.busy = true;
 
-    this.reqService.addUser(newUser)
+    this.reqService
+    .addUser(newUser)
     .subscribe({
         next: (response) => {
           console.log(response);
