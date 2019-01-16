@@ -16,10 +16,11 @@ export class LoginComponent implements OnInit {
     busy: false,
     valid: false
   };
-
+  public token;
   public loginForm: FormGroup;
   public usernameField: AbstractControl;
   public passwordField: AbstractControl;
+  public response: any;
 
   constructor(
     private fb: FormBuilder,
@@ -29,7 +30,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
+      username: ['kyle_p', Validators.required],
       password: ['', Validators.required]
     });
     this.usernameField = this.loginForm.controls.username;
@@ -43,13 +44,21 @@ export class LoginComponent implements OnInit {
     
     this.state.busy = true;
 
+    if(this.token) {
+      // send token to backend to get verified
+    }
+
     this.reqService.verifyUser(credentials)
       .subscribe({ 
         next: (response) => {
           console.log(response);
+
+          this.token = (response['token']);
+          console.log(this.token);
+
           window.setTimeout(() => {
             this.state.busy = false;
-            this.router.navigate(['dashboard', username]);
+            // this.router.navigate(['dashboard', username]);
           }, 1000);
         },
         error: (err) => {
