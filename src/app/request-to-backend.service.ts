@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { User } from './models/user';
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  })
-};
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +29,35 @@ export class RequestToBackendService {
   getUser (username: string) {
     const params = new HttpParams().set('username', username);
     return this.http.get('http://localhost:3000/api/user-profile', {responseType: 'json', params});
+  }
+
+  sendRequest(
+    method: 'GET' | 'POST' = 'GET',
+    url = '',
+    authorization: boolean | string = true,
+    contentType: 'application/json' | 'application/x-www-form-urlencoded' = 'application/json',
+    body = {}
+  ): Observable<any> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': contentType
+      })
+    };
+
+    if (authorization === true) {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        return throwError('ERROR: No token found in browser');
+      }
+    }
+    else if (typeof authorization === 'string') {
+      httpOptions.headers = httpOptions.headers.append('Authorization', authorization);
+    }
+
+    let httpRequest = new HttpRequest();
+
+    return this.http.request(httpRequest);
   }
 
   // TODO: toUTF8()
