@@ -34,54 +34,48 @@ export class LoginComponent implements OnInit {
     this.usernameField = this.loginForm.controls.username;
     this.passwordField = this.loginForm.controls.password;
 
-    // TODO: Check if token exists
-    // if(this.token) {
-    //   this.reqService
-    //   .verifyToken(this.token)
-    //   .subscribe({
-    //     next: (response) => {
-    //       console.log(response);
+    // Check for token
+    this.reqService
+    .sendRequest('GET', 'http://localhost:3000/api/reauthorize', true, 'application/json')
+    .subscribe({
+      next: (response) => {
+        console.log(response);
 
-    //       if(response['authorized']) {
-    //         this.state.busy = false;
-    //         console.log('USER REAUTHROIZED BY TOKEN');
-    //         // this.router.navigate(['dashboard', username]);
-    //       }
-    //     }, 
-    //     error: (err) => {
-    //       console.log(err.error);
-    //       this.state.busy = false;
-    //     }
-    //   });
-    // }
+        if(response['authorized']) {
+          console.log('User reauthorized via web token');
+          // this.router.navigate(['dashboard', username]);
+        }
+      }, 
+      error: (err) => {
+        console.log(err);
+      }
+    });
   }
 
   onSubmit(): void {
     let { username, password } = this.loginForm.value;
-    let credentials = { 'username': username, 'password': password }
-    console.log(credentials);
+    let userPass = `${username}:${password}`;
+    console.log(`user-pass: ${userPass}`);
     
     this.state.busy = true;
-
+    
     this.reqService
-    .verifyUser(credentials)
+    .sendRequest('POST', 'http://localhost:3000/api/login', userPass, 'application/json')
     .subscribe({ 
       next: (response) => {
         console.log(response);
 
-        if(response['token']) {
-          // TODO: store token in browser's local storage
-          // this.token = response['token'];
+        // if(response['token']) {
+          // localStorage.setItem('token', response['token']);
           window.setTimeout(() => {
             this.state.busy = false;
-            console.log('USER AUTHORIZED BY LOGIN');
             // this.router.navigate(['dashboard', username]);
-          }, 1000);
-        }
-        else {
-          this.state.busy = false;
+          }, 2000);
+        // }
+        // else {
+          // this.state.busy = false;
           // TODO: Client-side login error message
-        }
+        // }
       },
       error: (err) => {
         console.log(err.error);

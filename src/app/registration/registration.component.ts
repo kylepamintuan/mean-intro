@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
-import { User } from '../models/user';
 import { Validators } from '@angular/forms';
 import { RequestToBackendService } from '../request-to-backend.service';
 import { Router } from '@angular/router';
@@ -48,13 +47,13 @@ export class RegistrationComponent implements OnInit {
 
    onSubmit(): void {
     let {firstName, lastName, email, username, password} = this.registrationForm.value;
-    let newUser = new User(firstName, lastName, email, username, password);
+    let newUser = {firstName, lastName, email, username, password};
     console.log(newUser);
 
     this.state.busy = true;
 
     this.reqService
-    .addUser(newUser)
+    .sendRequest('POST', 'http://localhost:3000/api/registration', false, "application/json", newUser)
     .subscribe({
         next: (response) => {
           console.log(response);
@@ -64,7 +63,7 @@ export class RegistrationComponent implements OnInit {
           }, 1000);
         },
         error: (err) => {
-          console.log(err.error);
+          console.log(err);
           this.state.busy = false;
         }
     });

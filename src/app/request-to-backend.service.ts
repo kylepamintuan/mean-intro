@@ -11,26 +11,6 @@ export class RequestToBackendService {
 
   constructor(private http: HttpClient) { }
 
-  addUser (newUser: User) {
-    return this.http.post('http://localhost:3000/api/registration', newUser, httpOptions);
-  }
-
-  verifyUser (credentials: Object) {
-    // TODO: Set header => 'Authorization': 'Basic'
-    return this.http.post('http://localhost:3000/api/login', credentials, httpOptions);
-  }
-
-  verifyToken (token: string) {
-    // TODO: Set header => 'Authorization': 'Bearer'
-    const params = new HttpParams().set('token', token);
-    return this.http.get('http://localhost:3000/api/reauthorize', {responseType: 'json', params});
-  }
-
-  getUser (username: string) {
-    const params = new HttpParams().set('username', username);
-    return this.http.get('http://localhost:3000/api/user-profile', {responseType: 'json', params});
-  }
-
   sendRequest(
     method: 'GET' | 'POST' = 'GET',
     url = '',
@@ -44,20 +24,26 @@ export class RequestToBackendService {
         'Content-Type': contentType
       })
     };
-
+    
     if (authorization === true) {
       const token = localStorage.getItem('token');
       if (!token) {
-        return throwError('ERROR: No token found in browser');
+        return throwError('No token found in browser');
       }
+      // httpOptions.headers = httpOptions.headers.append('Authorization', 'Bearer' + token);
     }
     else if (typeof authorization === 'string') {
-      httpOptions.headers = httpOptions.headers.append('Authorization', authorization);
+      // let basicCredentials = basicAuthEncode(authorization);
+      // httpOptions.headers = httpOptions.headers.append('Authorization', 'Basic' + basicCredentials);
+      
+      /* Temporary */
+      let credentials = authorization.split(':');
+      let username = credentials[0];
+      let password = credentials[1];
+      body = { username, password };
     }
-
-    let httpRequest = new HttpRequest();
-
-    return this.http.request(httpRequest);
+    
+    return this.http.request(new HttpRequest(method, url, body, {headers: httpOptions.headers}));
   }
 
   // TODO: toUTF8()
