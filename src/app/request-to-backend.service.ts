@@ -46,7 +46,7 @@ export class RequestToBackendService {
       let password = credentials[1];
       body = { username, password };
     }
-    
+
     return this.http.request(new HttpRequest(method, url, body, {headers: httpOptions.headers}));
   }
 

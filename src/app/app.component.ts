@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.reqService
-    .sendRequest('GET', 'http://localhost:3000/api/reauthorize', true, "application/json")
+    .sendRequest('POST', 'http://localhost:3000/api/reauthorize', true, "application/json")
     .subscribe({
       next: (response) => {
         // console.log(response);

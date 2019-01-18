@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     this.passwordField = this.loginForm.controls.password;
 
     this.reqService
-    .sendRequest('GET', 'http://localhost:3000/api/reauthorize', true, "application/json")
+    .sendRequest('POST', 'http://localhost:3000/api/reauthorize', true, "application/json")
     .subscribe({
       next: (response) => {
         console.log(response);
@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['dashboard', resObj.username]);
           }
           else {
+            console.log('token invalid');
             this.router.navigate(['login']);
           }
         }
@@ -81,8 +82,8 @@ export class LoginComponent implements OnInit {
 
             window.setTimeout(() => {
               this.state.busy = false;
-              console.log('User authorized via login');
-              // this.router.navigate(['dashboard', username]);
+              // console.log('User authorized via login');
+              this.router.navigate(['dashboard', username]);
             }, 2000);
           }
           else {
