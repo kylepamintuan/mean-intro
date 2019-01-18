@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { User } from '../models/user';
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-dashboard',
@@ -8,11 +9,15 @@ import { User } from '../models/user';
 })
 
 export class DashboardComponent implements OnInit {
-  @Input() user: User;
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    this.router.navigate(['login']);
   }
-
 }
