@@ -32,10 +32,7 @@ export class RequestToBackendService {
         // httpOptions.headers = httpOptions.headers.append('Authorization', 'Bearer' + token);
       }
       else {
-        let observer = {
-          next: (token) => {}
-        }
-        return new Observable()
+        return throwError("No token exists");
       }
 
     }

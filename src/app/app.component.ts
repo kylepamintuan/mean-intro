@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
     .sendRequest('GET', 'http://localhost:3000/api/reauthorize', true, "application/json")
     .subscribe({
       next: (response) => {
-        console.log(response);
+        // console.log(response);
 
         if(response.hasOwnProperty('body')) {
           response = JSON.stringify(response.body);
@@ -31,12 +31,14 @@ export class AppComponent implements OnInit {
             this.router.navigate(['dashboard', resObj.username]);
           }
           else {
+            console.log('token invalid');
             this.router.navigate(['login']);
           }
         }
       }, 
       error: (err) => {
         console.log(err);
+        this.router.navigate(['login']);
       }
     });
   }

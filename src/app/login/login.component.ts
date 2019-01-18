@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit {
     .sendRequest('POST', 'http://localhost:3000/api/login', userPass, 'application/json')
     .subscribe({ 
       next: (response) => {
-        console.log(response);
+        // console.log(response);
 
         if(response.hasOwnProperty('body')) {
           response = JSON.stringify(response.body);
