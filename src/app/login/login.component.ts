@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { RequestToBackendService } from '../request-to-backend.service';
 import { Router } from '@angular/router'; 
@@ -34,16 +34,23 @@ export class LoginComponent implements OnInit {
     this.usernameField = this.loginForm.controls.username;
     this.passwordField = this.loginForm.controls.password;
 
-    // Check for token
     this.reqService
-    .sendRequest('GET', 'http://localhost:3000/api/reauthorize', true, 'application/json')
+    .sendRequest('GET', 'http://localhost:3000/api/reauthorize', true, "application/json")
     .subscribe({
       next: (response) => {
         console.log(response);
 
-        if(response['authorized']) {
-          console.log('User reauthorized via web token');
-          // this.router.navigate(['dashboard', username]);
+        if(response.hasOwnProperty('body')) {
+          response = JSON.stringify(response.body);
+          let resObj = JSON.parse(response);
+
+          if(resObj.authorized) {
+            console.log('User reauthorized via web token');
+            this.router.navigate(['dashboard', resObj.username]);
+          }
+          else {
+            this.router.navigate(['login']);
+          }
         }
       }, 
       error: (err) => {
@@ -65,17 +72,24 @@ export class LoginComponent implements OnInit {
       next: (response) => {
         console.log(response);
 
-        // if(response['token']) {
-          // localStorage.setItem('token', response['token']);
-          window.setTimeout(() => {
+        if(response.hasOwnProperty('body')) {
+          response = JSON.stringify(response.body);
+          let resObj = JSON.parse(response);
+
+          if(resObj.token) {
+            localStorage.setItem('token', resObj.token);
+
+            window.setTimeout(() => {
+              this.state.busy = false;
+              console.log('User authorized via login');
+              // this.router.navigate(['dashboard', username]);
+            }, 2000);
+          }
+          else {
             this.state.busy = false;
-            // this.router.navigate(['dashboard', username]);
-          }, 2000);
-        // }
-        // else {
-          // this.state.busy = false;
-          // TODO: Client-side login error message
-        // }
+            // TODO: Client-side login error message
+          }
+        }
       },
       error: (err) => {
         console.log(err.error);

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
-import { User } from './models/user';
 import { Observable, throwError } from 'rxjs';
 
 @Injectable({
@@ -27,10 +26,18 @@ export class RequestToBackendService {
     
     if (authorization === true) {
       const token = localStorage.getItem('token');
-      if (!token) {
-        return throwError('No token found in browser');
+
+      if(token) {
+        body = { token };
+        // httpOptions.headers = httpOptions.headers.append('Authorization', 'Bearer' + token);
       }
-      // httpOptions.headers = httpOptions.headers.append('Authorization', 'Bearer' + token);
+      else {
+        let observer = {
+          next: (token) => {}
+        }
+        return new Observable()
+      }
+
     }
     else if (typeof authorization === 'string') {
       // let basicCredentials = basicAuthEncode(authorization);
