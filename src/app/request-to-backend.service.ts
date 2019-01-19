@@ -37,8 +37,8 @@ export class RequestToBackendService {
 
     }
     else if (typeof authorization === 'string') {
-      // let basicCredentials = basicAuthEncode(authorization);
-      // httpOptions.headers = httpOptions.headers.append('Authorization', 'Basic' + basicCredentials);
+      let basicCredentials = this.base64EncodeUnicode(authorization);
+      httpOptions.headers = httpOptions.headers.append('Authorization', 'Basic ' + basicCredentials);
       
       /* Temporary */
       let credentials = authorization.split(':');
@@ -46,11 +46,17 @@ export class RequestToBackendService {
       let password = credentials[1];
       body = { username, password };
     }
-
     return this.http.request(new HttpRequest(method, url, body, {headers: httpOptions.headers}));
   }
 
-  // TODO: toUTF8()
-  // TODO: base64Encode()
-  // TODO: basicAuthEncode()
+  base64EncodeUnicode(str: string): string {
+    // First, we use encodeURIComponent to get percent-encoded UTF-8,
+    // Then, we convert the percent encodings into raw bytes which can be fed into btoa.
+    return btoa(encodeURIComponent(str)
+    .replace(/%([0-9A-F]{2})/g, function toSolidBytes(match, p1) {
+          return String.fromCharCode('0x' + p1);
+        }
+    ));
+  }
+
 }
