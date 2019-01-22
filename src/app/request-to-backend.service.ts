@@ -28,8 +28,7 @@ export class RequestToBackendService {
       const token = localStorage.getItem('token');
 
       if(token) {
-        body = { token };
-        // httpOptions.headers = httpOptions.headers.append('Authorization', 'Bearer' + token);
+        httpOptions.headers = httpOptions.headers.append('Authorization', `Bearer ${token}`);
       }
       else {
         return throwError("No token exists");
@@ -38,14 +37,9 @@ export class RequestToBackendService {
     }
     else if (typeof authorization === 'string') {
       let basicCredentials = this.base64EncodeUnicode(authorization);
-      httpOptions.headers = httpOptions.headers.append('Authorization', 'Basic ' + basicCredentials);
-      
-      /* Temporary */
-      let credentials = authorization.split(':');
-      let username = credentials[0];
-      let password = credentials[1];
-      body = { username, password };
+      httpOptions.headers = httpOptions.headers.append('Authorization', `Basic ${basicCredentials}`);
     }
+
     return this.http.request(new HttpRequest(method, url, body, {headers: httpOptions.headers}));
   }
 

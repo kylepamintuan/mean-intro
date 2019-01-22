@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     this.passwordField = this.loginForm.controls.password;
 
     this.reqService
-    .sendRequest('POST', 'http://localhost:3000/api/reauthorize', true, "application/json")
+    .sendRequest('GET', 'http://localhost:3000/api/reauthorize', true, "application/json")
     .subscribe({
       next: (response) => {
         // console.log(response);
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
     this.state.busy = true;
     
     this.reqService
-    .sendRequest('POST', 'http://localhost:3000/api/login', userPass, 'application/json')
+    .sendRequest('GET', 'http://localhost:3000/api/login', userPass, 'application/json')
     .subscribe({ 
       next: (response) => {
         console.log(response);
