@@ -63,7 +63,6 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     let { username, password } = this.loginForm.value;
     let userPass = `${username}:${password}`;
-    console.log(`user-pass: ${userPass}`);
     
     this.state.busy = true;
     
