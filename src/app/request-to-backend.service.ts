@@ -46,9 +46,8 @@ export class RequestToBackendService {
   base64EncodeUnicode(str: string): string {
     // First, we use encodeURIComponent to get percent-encoded UTF-8,
     // Then, we convert the percent encodings into raw bytes which can be fed into btoa.
-    return btoa(encodeURIComponent(str)
-    .replace(/%([0-9A-F]{2})/g, function toSolidBytes(match, p1) {
-          return String.fromCharCode('0x' + p1);
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function toSolidBytes(match, p1) {
+          return String.fromCharCode(parseInt(`0x${p1}`, 16));
         }
     ));
   }
