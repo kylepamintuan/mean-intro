@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
-import { Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { RequestToBackendService } from '../request-to-backend.service';
 import { Router } from '@angular/router'; 
 
@@ -9,7 +8,6 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-
 export class LoginComponent implements OnInit {
 
   public state = {
@@ -29,7 +27,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       username: ['kyle_p', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      providers: [RequestToBackendService]
     });
     this.usernameField = this.loginForm.controls.username;
     this.passwordField = this.loginForm.controls.password;

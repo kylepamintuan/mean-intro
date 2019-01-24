@@ -17,6 +17,8 @@
 .login-container .body img {
     height: 18rem;
     width: 30rem;
+
+    margin-bottom: 1rem;
 }
 
 form .field input, form .button {

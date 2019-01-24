@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { RequestToBackendService } from '../request-to-backend.service';
-import { Router } from '@angular/router'; 
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class AuthGuard implements CanActivate {
 
   constructor(
@@ -17,38 +14,19 @@ export class AuthGuard implements CanActivate {
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-
-    return new Promise((resolve, reject) => {
+    state: RouterStateSnapshot
+  ): Promise<boolean> {
+    return new Promise((resolve) => {
       this.reqService
-      .sendRequest('GET', 'http://localhost:3000/api/reauthorize', true, "application/json")
-      .subscribe({
-        next: (response) => {
-          // console.log(response);
-
-          if(response.hasOwnProperty('body')) {
-            response = JSON.stringify(response.body);
-            let resObj = JSON.parse(response);
-
-            if(resObj.authorized) {
-              console.log('User reauthorized via web token');
-              resolve (true);
-            }
-            else {
-              console.log('token invalid');
-              this.router.navigate(['login']);
-              reject (false);
-            }
+        .sendRequest('GET', 'http://localhost:3000/api/reauthorize', true, "application/json")
+        .subscribe({
+          next: () => resolve(true),
+          error: () => {
+            this.router.navigate(['login']);
+            return resolve(false);
           }
-        }, 
-        error: (err) => {
-          console.log(err);
-          this.router.navigate(['login']);
-          reject (false);
-        }
-      })
+        });
     });
-
   }
 
 }
