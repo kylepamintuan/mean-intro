@@ -1,52 +1,55 @@
-<div class="container">
-  <h2>Registration</h2>
-  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="ui form" novalidate>
-    
-    <!-- First Name -->
-    <div class="field" [ngClass]="{ error: !firstNameField.valid && firstNameField.touched }">
-      <div class="ui left icon input">
-        <i class="info icon"></i>
-        <input formControlName="firstName" type="text" class="form-control" placeholder="First Name" required>
+<div class="registration-container">
+  <div class="body">
+    <img src="assets/logos/cytellix-main-logo.png"/>
+    <h2>Create an Account</h2>
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="ui form" novalidate>
+      
+      <!-- First Name -->
+      <div class="field" [ngClass]="{ error: !firstNameField.valid && firstNameField.touched }">
+        <div class="ui left icon input">
+          <i class="info icon"></i>
+          <input formControlName="firstName" type="text" class="form-control" placeholder="First Name" required>
+        </div>
       </div>
-    </div>
-    
-    <!-- Last Name -->
-    <div class="field" [ngClass]="{ error: !lastNameField.valid && lastNameField.touched }">
-      <div class="ui left icon input">
-        <i class="info icon"></i>
-        <input formControlName="lastName" type="text" class="form-control" placeholder="Last Name" required>
+      
+      <!-- Last Name -->
+      <div class="field" [ngClass]="{ error: !lastNameField.valid && lastNameField.touched }">
+        <div class="ui left icon input">
+          <i class="info icon"></i>
+          <input formControlName="lastName" type="text" class="form-control" placeholder="Last Name" required>
+        </div>
       </div>
-    </div>
-
-    <!-- Email -->
-    <div class="field" [ngClass]="{ error: !emailField.valid && emailField.touched }">
-      <div class="ui left icon input">
-        <i class="envelope icon"></i>
-        <input formControlName="email" type="email" class="form-control" placeholder="Email" required>
-      </div>
-    </div>
-
-    <!-- Username -->
-    <div class="field" [ngClass]="{ error: !usernameField.valid && usernameField.touched }">
-      <div class="ui left icon input">
-        <i class="user icon"></i>
-        <input formControlName="username" type="text" class="form-control" placeholder="Username" required>
-      </div>
-    </div>
   
-    <!-- Password -->
-    <div class="field" [ngClass]="{ error: !passwordField.valid && passwordField.touched }" >
-      <div class="ui left icon input">
-      <i class="unlock icon"></i>
-      <input formControlName="password" type="password" class="form-control" placeholder="Password" required>
+      <!-- Email -->
+      <div class="field" [ngClass]="{ error: !emailField.valid && emailField.touched }">
+        <div class="ui left icon input">
+          <i class="envelope icon"></i>
+          <input formControlName="email" type="email" class="form-control" placeholder="Email" required>
+        </div>
       </div>
-    </div>
-
-    <!-- Submit -->
-    <button [disabled]="!registrationForm.valid" class="ui orange button" [ngClass]="{ disabled: !registrationForm.valid || state.busy, loading: state.busy }" type="submit">Register</button>
-
-    <!-- Login Link -->
-    <p><a routerLink="/login" routerLinkActive="active"><i class="arrow left icon"></i>Back to Login</a></p>
-
-  </form>
+  
+      <!-- Username -->
+      <div class="field" [ngClass]="{ error: !usernameField.valid && usernameField.touched }">
+        <div class="ui left icon input">
+          <i class="user icon"></i>
+          <input formControlName="username" type="text" class="form-control" placeholder="Username" required>
+        </div>
+      </div>
+    
+      <!-- Password -->
+      <div class="field" [ngClass]="{ error: !passwordField.valid && passwordField.touched }" >
+        <div class="ui left icon input">
+        <i class="unlock icon"></i>
+        <input formControlName="password" type="password" class="form-control" placeholder="Password" required>
+        </div>
+      </div>
+  
+      <!-- Submit -->
+      <button [disabled]="!registrationForm.valid" class="ui orange button" [ngClass]="{ disabled: !registrationForm.valid || state.busy, loading: state.busy }" type="submit">Register</button>
+  
+      <!-- Login Link -->
+      <p><a routerLink="/login" routerLinkActive="active"><i class="arrow left icon"></i>Back to Login</a></p>
+  
+    </form>
+  </div>
 </div>

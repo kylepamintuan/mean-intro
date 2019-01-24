@@ -1,5 +1,12 @@
-.container {
-    margin-top: 20rem;
+.login-container {
+    height: 100vh;
+    width: 100vw;
+    background-color: #4b4e54;
+    color: white;
+}
+
+.login-container .body {
+    padding-top: 15rem;
 
     display: flex;
     flex-direction: column;
@@ -7,8 +14,9 @@
     align-items: center;
 }
 
-h2 {
-    color: purple;
+.login-container .body img {
+    height: 18rem;
+    width: 30rem;
 }
 
 form .field input, form .button {

@@ -1,5 +1,6 @@
-<div class="container">
-    <h2>User Login</h2>
+<div class="login-container">
+  <div class="body">
+    <img src="assets/logos/cytellix-main-logo.png"/>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="ui form" novalidate>
       
       <!-- Username -->
@@ -25,4 +26,5 @@
       <p><a routerLink="/registration" routerLinkActive="active">Register</a></p>
 
     </form>
-  </div>
+    </div>
+</div>
