@@ -37,15 +37,12 @@ export class LoginComponent implements OnInit {
     .sendRequest('GET', 'http://localhost:3000/api/reauthorize', true, "application/json")
     .subscribe({
       next: (response) => {
-        // console.log(response);
+        console.log(response);
 
         if(response.hasOwnProperty('body')) {
-          response = JSON.stringify(response.body);
-          let resObj = JSON.parse(response);
-
-          if(resObj.authorized) {
+          if(response.body.authorized) {
             console.log('User reauthorized via web token');
-            this.router.navigate(['dashboard', resObj.username]);
+            this.router.navigate(['dashboard', response.body.username]);
           }
           else {
             console.log('token invalid');
